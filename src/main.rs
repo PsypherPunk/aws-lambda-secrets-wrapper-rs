@@ -10,9 +10,10 @@ async fn main() -> Result<()> {
 
     for (key, value) in env::vars() {
         if key.ends_with("_SECRET_ARN") {
-            let resp = client.get_secret_value().secret_id(&value).send().await?;
-
-            let secret_string = resp.secret_string().ok_or_else(|| eyre!(""))?;
+            let secret_value = client.get_secret_value().secret_id(&value).send().await?;
+            let secret_string = secret_value
+                .secret_string()
+                .ok_or_else(|| eyre!("could not read SecretString"))?;
 
             println!(
                 "export {}='{}'",
