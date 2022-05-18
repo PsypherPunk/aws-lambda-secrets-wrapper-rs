@@ -31,7 +31,11 @@ async fn main() -> Result<()> {
             let secret_string = secret_value.secret_string()?;
             let key = key.replace(SECRET_SUFFIX, "");
 
-            Some(format!("{}=$'{}'", key, secret_string.replace('\'', r"\'")))
+            Some(format!(
+                "export {}=$'{}'",
+                key,
+                secret_string.replace('\'', r"\'")
+            ))
         })
         .collect::<Vec<_>>()
         .join("\n");
