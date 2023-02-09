@@ -29,9 +29,11 @@ jobs:
 
       - id: build-zip
         run: |
+          set -o errexit
+
           zip -9 --junk-paths "aws-lambda-secrets-wrapper-${{ env.version }}.zip" \
             secrets-wrapper \
-            target/release/aws-lambda-secrets-wrapper-rs
+            target/x86_64-unknown-linux-musl/release/aws-lambda-secrets-wrapper-rs
 
       - name: release
         uses: softprops/action-gh-release@v1
