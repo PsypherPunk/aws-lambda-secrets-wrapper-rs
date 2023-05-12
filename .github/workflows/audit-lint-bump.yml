@@ -49,7 +49,7 @@ jobs:
       - lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
@@ -68,8 +68,7 @@ jobs:
       - uses: commitizen-tools/commitizen-action@master
         name: commitizen
         with:
-          commitizen_version: v2.20.5
+          commitizen_version: v3.2.2
           changelog: ""
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           prerelease: ${{ steps.prerelease.outputs.prerelease }}
-          branch: ${{ env.branch }}
