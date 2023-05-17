@@ -18,4 +18,5 @@ strip = true
 aws-config = "0.8.0"
 aws-sdk-secretsmanager = "0.8.0"
 eyre = "0.6.7"
+futures = "0.3.21"
 tokio = { version = "1", features = ["full"] }
