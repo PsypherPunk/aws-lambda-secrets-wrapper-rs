@@ -13,7 +13,6 @@ async fn main() -> Result<()> {
     let client = Client::new(&config);
 
     let secret_envs = env::vars()
-        .into_iter()
         .filter(|(key, _)| key.ends_with(SECRET_SUFFIX))
         .collect::<Vec<_>>();
 
