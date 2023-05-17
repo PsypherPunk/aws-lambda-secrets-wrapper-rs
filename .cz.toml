@@ -3,3 +3,7 @@ version = "0.3.1"
 version_files = [
     "Cargo.toml:^version",
 ]
+
+[tool.commitizen.customize]
+bump_pattern = '^(BREAKING CHANGE|feat|fix|refactor|build|docs)(\(.+\))?(!)?'
+bump_map = {"!" = "MAJOR", feat = "MINOR", fix = "PATCH", refactor = "PATCH", build = "PATCH", docs = "PATCH"}
