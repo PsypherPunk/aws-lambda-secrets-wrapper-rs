@@ -51,24 +51,40 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          fetch-depth: 0
 
-      - id: get-branch
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/
+          key: commitizen==3.2.2
+
+      - name: install-commitizen
+        run: |
+          python3 -m pip install commitizen==3.2.2
+
+      - name: get-branch
         run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
-      - id: prerelease 
+      - name: validate-commits
+        if: github.ref != 'refs/heads/main'
         run: |
-          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]
-          then
-              echo "::set-output name=prerelease::"
-          else
-              echo "::set-output name=prerelease::rc"
-          fi
+          cz check --rev-range origin/main..
 
-      - uses: commitizen-tools/commitizen-action@master
-        name: commitizen
-        with:
-          commitizen_version: v3.2.2
-          changelog: ""
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          prerelease: ${{ steps.prerelease.outputs.prerelease }}
+          echo "prerelease=--prerelease=rc" >>"${GITHUB_ENV}"
+          echo "devrelease=--devrelease=${GITHUB_RUN_ID}" >>"${GITHUB_ENV}"
+
+      - name: commitizen
+        run: |
+          git config --local user.name 'github-actions[bot]'
+          git config --local user.email 'github-actions[bot]@users.noreply.github.com'
+
+          cz --name cz_customize bump --check-consistency --yes ${prerelease} ${devrelease}
+
+      - name: git-push
+        run: |
+          REMOTE_REPO="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"
+          git push "${REMOTE_REPO}" "HEAD:${GITHUB_REF#refs/heads/}" --tags
