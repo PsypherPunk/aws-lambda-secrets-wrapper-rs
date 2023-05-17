@@ -40,6 +40,7 @@ jobs:
         name: cargo-clippy
         with:
           command: clippy
+          args: -- -Dwarnings
 
   bump:
     if: "!startsWith(github.event.head_commit.message, 'bump:')"
