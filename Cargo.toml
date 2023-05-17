@@ -1,0 +1,17 @@
+[package]
+name = "aws-lambda-secrets-wrapper-rs"
+description = "Securely retrieve AWS Lambda secrets at runtime."
+authors = ["PsypherPunk <psypherpunk+github@gmail.com>"]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/PsypherPunk/aws-lambda-secrets-wrapper-rs"
+
+[profile.release]
+strip = "symbols"
+
+[dependencies]
+aws-config = "0.8.0"
+aws-sdk-secretsmanager = "0.8.0"
+eyre = "0.6.7"
+tokio = { version = "1", features = ["full"] }

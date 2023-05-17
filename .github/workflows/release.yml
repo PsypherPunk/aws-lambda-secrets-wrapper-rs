@@ -1,0 +1,42 @@
+name: release
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: get-version
+        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: x86_64-unknown-linux-musl
+          override: true
+
+      - uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release
+
+      - id: build-zip
+        run: |
+          zip -9 --junk-paths "aws-lambda-secrets-wrapper-${{ env.version }}.zip" \
+            secrets-wrapper \
+            target/release/aws-lambda-secrets-wrapper-rs
+
+      - name: release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          prerelease: false
+          files: |
+            aws-lambda-secrets-wrapper-${{ env.version }}.zip
