@@ -3,6 +3,7 @@ version = "0.3.2rc0.dev5007464897"
 version_files = [
     "Cargo.toml:^version",
 ]
+version_provider = "cargo"
 
 [tool.commitizen.customize]
 bump_pattern = '^(BREAKING CHANGE|feat|fix|refactor|build|docs)(\(.+\))?(!)?'
