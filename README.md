@@ -32,10 +32,10 @@ If you want want to pass a secret, say an obviously-named environment variable
 like `DATABASE_PASSWORD`, to an AWS Lambda, there are a few steps:
 
 - add an *layer* to the Lambda containing a release from this repository;
-- pass the ARN of the secret, securely stored in AWS Secrets Manager, to the
-  AWS Lambda (the value will always be `/opt/secrets-wrapper`), suffixed with
-  `_SECRET_ARN`;
-- set the environment variable `AWS_LAMBDA_EXEC_WRAPPER`.
+- pass the ARN of the secret—itself securely stored in AWS Secrets Manager—to the
+  AWS Lambda, with an environment variable suffixed with `_SECRET_ARN`;
+- set the environment variable `AWS_LAMBDA_EXEC_WRAPPER` (the value will always
+  be `/opt/secrets-wrapper`.)
 
 In Terraform, this might look like:
 
