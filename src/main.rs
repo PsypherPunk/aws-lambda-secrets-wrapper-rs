@@ -1,9 +1,11 @@
 use std::env;
-use std::io::{self, Write};
+use std::io::{stdout, Write};
 
 use aws_sdk_secretsmanager::Client;
 use eyre::Result;
 use futures::future::try_join_all;
+
+const SECRET_SUFFIX: &str = "_SECRET_ARN";
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -12,7 +14,7 @@ async fn main() -> Result<()> {
 
     let secret_envs = env::vars()
         .into_iter()
-        .filter(|(key, _)| key.ends_with("_SECRET_ARN"))
+        .filter(|(key, _)| key.ends_with(SECRET_SUFFIX))
         .collect::<Vec<_>>();
 
     let secret_arns = secret_envs
@@ -27,13 +29,14 @@ async fn main() -> Result<()> {
         .zip(secret_envs)
         .filter_map(|(secret_value, (key, _))| {
             let secret_string = secret_value.secret_string()?;
+            let key = key.replace(SECRET_SUFFIX, "");
 
-            Some(format!("{}='{}'", key, secret_string))
+            Some(format!("{}=$'{}'", key, secret_string.replace('\'', r"\'")))
         })
         .collect::<Vec<_>>()
         .join("\n");
 
-    io::stdout().write_all(secret_strings.as_bytes())?;
+    stdout().write_all(secret_strings.as_bytes())?;
 
     Ok(())
 }
