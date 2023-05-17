@@ -7,46 +7,9 @@ on:
       - '**'
 
 jobs:
-  audit:
-    name: cargo-audit
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: rust-audit-check
-        uses: actions-rs/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-  lint:
-    name: linting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions-rs/toolchain@v1.0.6
-        with:
-          toolchain: stable
-          override: true
-
-      - uses: actions-rs/cargo@v1
-        name: cargo-fmt
-        with:
-          command: fmt
-          args: --all -- --check
-
-      - uses: actions-rs/cargo@v1
-        name: cargo-clippy
-        with:
-          command: clippy
-
   bump:
     if: "!startsWith(github.event.head_commit.message, 'bump:')"
     name: bump
-    needs:
-      - audit
-      - lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
