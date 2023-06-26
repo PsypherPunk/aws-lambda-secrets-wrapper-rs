@@ -6,6 +6,8 @@ on:
     tags-ignore:
       - '**'
 
+permissions: write-all
+
 jobs:
   audit:
     name: cargo-audit
