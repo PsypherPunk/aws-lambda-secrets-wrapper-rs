@@ -89,5 +89,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          REMOTE_REPO="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}}@github.com/${GITHUB_REPOSITORY}.git"
+          REMOTE_REPO="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git push "${REMOTE_REPO}" "HEAD:${GITHUB_REF#refs/heads/}" --tags
