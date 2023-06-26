@@ -1,5 +1,5 @@
 [tool.commitizen]
-version = "0.3.2rc0.dev5007464897"
+name = "cz_customize"
 version_provider = "cargo"
 version_type = "semver"
 
