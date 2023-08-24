@@ -8,10 +8,12 @@ jobs:
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - id: get-version
-        run: echo "version=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        run: |
+          git fetch --prune --unshallow --all
+          echo "version=$(git describe --tags)" >> $GITHUB_ENV
 
       - uses: actions-rs/toolchain@v1
         with:
@@ -38,5 +40,6 @@ jobs:
         with:
           draft: true
           prerelease: false
+          tag_name: ${{ env.version }}
           files: |
             aws-lambda-secrets-wrapper-${{ env.version }}.zip
