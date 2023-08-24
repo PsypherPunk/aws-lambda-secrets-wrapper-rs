@@ -1,8 +1,7 @@
 [tool.commitizen]
-name = "cz_customize"
 version_provider = "cargo"
 version_type = "semver"
 
 [tool.commitizen.customize]
-bump_pattern = '^(BREAKING CHANGE|feat|fix|refactor|build|docs)(\(.+\))?(!)?'
-bump_map = {"!" = "MAJOR", feat = "MINOR", fix = "PATCH", refactor = "PATCH", build = "PATCH", docs = "PATCH"}
+bump_pattern = '^(BREAKING CHANGE|build|chore|docs|feat|fix|refactor|test)(\(.+\))?(!)?'
+bump_map = {"!" = "MAJOR", build = "PATCH", chore = "PATCH", docs = "PATCH", feat = "MINOR", fix = "PATCH", refactor = "PATCH", test = "PATCH" }
