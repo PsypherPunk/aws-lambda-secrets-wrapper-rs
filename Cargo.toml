@@ -14,7 +14,7 @@ panic = "abort"
 strip = true
 
 [dependencies]
-aws-config = "0.56.1"
+aws-config = "0.57.1"
 aws-sdk-secretsmanager = "0.34.0"
 eyre = "0.6.8"
 futures = "0.3.25"
