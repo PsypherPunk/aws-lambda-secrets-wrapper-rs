@@ -9,7 +9,9 @@ const SECRET_SUFFIX: &str = "_SECRET_ARN";
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let config = aws_config::from_env().load().await;
+    let config = aws_config::defaults(aws_config::BehaviorVersion::latest())
+        .load()
+        .await;
     let client = Client::new(&config);
 
     let secret_envs = env::vars()
