@@ -15,7 +15,7 @@ strip = true
 
 [dependencies]
 aws-config = "0.57.1"
-aws-sdk-secretsmanager = "0.35.0"
+aws-sdk-secretsmanager = "0.38.0"
 eyre = "0.6.8"
 futures = "0.3.25"
 tokio = { version = "1.23.0", features = ["full"] }
